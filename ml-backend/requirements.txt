@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+diffusers>=0.21.0
+transformers
+accelerate
+Pillow
+python-multipart
+xformers
