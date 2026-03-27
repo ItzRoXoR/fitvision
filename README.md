@@ -71,7 +71,8 @@ npm run dev
 Из директории `ml-backend/`:
 
 ```bash
-pip install -r requirements.txt   # первый раз
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124   # первый раз, CUDA 12.x
+pip install -r requirements.txt  # первый раз
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 

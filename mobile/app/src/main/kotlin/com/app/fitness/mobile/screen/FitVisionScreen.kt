@@ -96,71 +96,58 @@ fun FitVisionScreen(viewModel: FitVisionViewModel) {
                 else                         -> COLOR_MOTIVATE
             }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // Before
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        bitmap = selectedPhotoBitmap,
-                        contentDescription = "До",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(2f / 3f)
-                            .clip(RoundedCornerShape(12.dp)),
-                        contentScale = ContentScale.Crop
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Text("До", fontSize = 12.sp, color = INK_MUTED, fontFamily = FontFamily.SansSerif)
-                }
+            // Before
+            Image(
+                bitmap = selectedPhotoBitmap,
+                contentDescription = "До",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(3f / 4f)
+                    .clip(RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(Modifier.height(4.dp))
+            Text("До", fontSize = 12.sp, color = INK_MUTED, fontFamily = FontFamily.SansSerif)
 
-                // After
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
+            Spacer(Modifier.height(16.dp))
+
+            // After
+            val resultBitmap = state.resultBitmap
+            if (resultBitmap != null) {
+                Image(
+                    bitmap = resultBitmap,
+                    contentDescription = "После",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(3f / 4f)
+                        .clip(RoundedCornerShape(12.dp))
+                        .border(3.dp, modeColor, RoundedCornerShape(12.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(3f / 4f)
+                        .background(Color(0xFFE0E0E0), RoundedCornerShape(12.dp)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    val resultBitmap = state.resultBitmap
-                    if (resultBitmap != null) {
-                        Image(
-                            bitmap = resultBitmap,
-                            contentDescription = "После",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(2f / 3f)
-                                .clip(RoundedCornerShape(12.dp))
-                                .border(3.dp, modeColor, RoundedCornerShape(12.dp)),
-                            contentScale = ContentScale.Crop
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(2f / 3f)
-                                .background(Color(0xFFE0E0E0), RoundedCornerShape(12.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("После", color = INK_MUTED, fontSize = 14.sp, fontFamily = FontFamily.SansSerif)
-                        }
-                    }
-                    Spacer(Modifier.height(4.dp))
-                    val modeLabel = when (state.generationMode) {
-                        GenerationMode.GAIN_WEIGHT   -> "Набор веса"
-                        GenerationMode.MOTIVATE      -> "Потенциал"
-                        GenerationMode.REAL_PROGRESS -> "Реальный прогресс"
-                        null                         -> "После"
-                    }
-                    Text(
-                        modeLabel,
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily.SansSerif,
-                        color = if (state.generationMode != null) modeColor else INK_MUTED
-                    )
+                    Text("После", color = INK_MUTED, fontSize = 14.sp, fontFamily = FontFamily.SansSerif)
                 }
             }
+            Spacer(Modifier.height(4.dp))
+            val modeLabel = when (state.generationMode) {
+                GenerationMode.GAIN_WEIGHT   -> "Набор веса"
+                GenerationMode.MOTIVATE      -> "Потенциал"
+                GenerationMode.REAL_PROGRESS -> "Реальный прогресс"
+                null                         -> "После"
+            }
+            Text(
+                modeLabel,
+                fontSize = 12.sp,
+                fontFamily = FontFamily.SansSerif,
+                color = if (state.generationMode != null) modeColor else INK_MUTED
+            )
 
             Spacer(Modifier.height(8.dp))
             TextButton(
@@ -245,7 +232,7 @@ fun FitVisionScreen(viewModel: FitVisionViewModel) {
             listOf(
                 "lose_weight" to "Похудеть",
                 "gain_muscle" to "Мышцы",
-                "maintain"    to "Поддержать"
+                "maintain"    to "Поддержать форму"
             ).forEach { (goal, label) ->
                 FilterChip(
                     selected = state.goal == goal,
