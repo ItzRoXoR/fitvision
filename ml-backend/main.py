@@ -86,7 +86,6 @@ async def generate(
     avg_steps_per_day: int = Form(...),
     avg_calories_per_day: float = Form(...),
     activity_type: str = Form(...),           # 'running' | 'walking' | 'strength' | 'cycling'
-    active_days_per_week: int = Form(...),
     period_months: int = Form(...),           # 1 | 3 | 6
     goal: str = Form(...),                    # 'lose_weight' | 'gain_muscle' | 'maintain'
 ):
@@ -101,7 +100,7 @@ async def generate(
     # Calculate activity stats and build the SD prompt
     stats = aggregate_activities(
         avg_steps_per_day, avg_calories_per_day, activity_type,
-        active_days_per_week, period_months, weight_kg, height_cm, goal,
+        period_months, weight_kg, height_cm, goal,
     )
     prompt, negative_prompt, mode = build_prompt(gender, age, height_cm, stats, period_months)
 
